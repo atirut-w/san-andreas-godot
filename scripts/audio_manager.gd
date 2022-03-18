@@ -7,9 +7,9 @@ func _ready() -> void:
 
 func init() -> void:
     print("Initializing Audio Manager")
-    _load_packages()
+    _load_packagelist()
 
-func _load_packages() -> void:
+func _load_packagelist() -> void:
     print("Loading SFX packages")
     var file := File.new()
     var err = file.open(GameManager.game_path + "/audio/CONFIG/PakFiles.dat", File.READ)
