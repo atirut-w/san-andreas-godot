@@ -70,6 +70,36 @@ func load_bank(bank_id: int) -> BankHeader:
 	file.close()
 	return bank_header
 
+func load_sound(bank_id: int, sound_id: int) -> AudioStreamSample:
+	var bank_header := load_bank(bank_id)
+	var bank_meta := _banklookup[bank_id] as BankMeta
+	if bank_header == null:
+		return null
+	var sound_meta := bank_header.sounds[sound_id] as SoundMeta
+
+	# We calculate the audio length from the next sound's offset or the bank's
+	# size.
+	var audio_len := 0
+	if sound_id < bank_header.numsounds - 1:
+		audio_len = bank_header.sounds[sound_id + 1].buffer_offset - sound_meta.buffer_offset
+	else:
+		audio_len = bank_meta.bank_size - sound_meta.buffer_offset
+
+	var file := File.new()
+	var err := file.open(GameManager.game_path + "/audio/sfx/" + _packagelist[bank_meta.package_index], File.READ)
+	if err != OK:
+		print("Error opening SFX package %s" % _packagelist[bank_meta.package_index])
+		return null
+	file.seek(bank_meta.bank_header_offset + 4804 + sound_meta.buffer_offset)
+	var buffer := file.get_buffer(audio_len) as PoolByteArray
+	file.close()
+
+	var stream := AudioStreamSample.new()
+	stream.data = buffer
+	stream.format = AudioStreamSample.FORMAT_16_BITS
+	stream.mix_rate = sound_meta.sample_rate
+	return stream
+
 class BankMeta:
 	var package_index: int
 	var padding: PoolIntArray
