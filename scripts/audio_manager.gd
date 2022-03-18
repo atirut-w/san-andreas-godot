@@ -1,6 +1,6 @@
 extends Node
 
-var packagelist := []
+var _packagelist := []
 
 func _ready() -> void:
     GameManager.connect("initialized", self, "init")
@@ -19,6 +19,6 @@ func _load_packagelist() -> void:
 
     for i in file.get_len() / 52:
         var namebuffer := file.get_buffer(52) as PoolByteArray
-        packagelist.append(namebuffer.get_string_from_utf8())
+        _packagelist.append(namebuffer.get_string_from_utf8())
     file.close()
-    print("Loaded %d SFX package(s)" % packagelist.size())
+    print("Loaded %d SFX package(s)" % _packagelist.size())
