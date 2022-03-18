@@ -11,7 +11,12 @@ config_version=4
 [application]
 
 config/name="San Andreas"
+run/main_scene="res://scenes/main.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GameManager="*res://scripts/game_manager.gd"
 
 [physics]
 
