@@ -10,6 +10,6 @@ func _ready() -> void:
     filediag.window_title = "Select game directory"
 
     add_child(filediag)
-    filediag.popup_centered_minsize(Vector2(300, 300))
+    filediag.popup_centered_minsize(Vector2(800, 300))
     game_path = yield(filediag, "dir_selected")
     print("Game path:" + game_path)
