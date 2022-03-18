@@ -41,11 +41,34 @@ func _load_bank_lookup() -> void:
 		meta.padding.append(file.get_8())
 		meta.bank_header_offset = file.get_32()
 		meta.bank_size = file.get_32()
-		print(meta.bank_size)
 
 		_banklookup.append(meta)
 	file.close()
 	print("Loaded %d bank(s)" % _banklookup.size())
+
+func load_bank(bank_id: int) -> BankHeader:
+	var bank_meta := _banklookup[bank_id] as BankMeta
+	var file := File.new()
+
+	var err = file.open(GameManager.game_path + "/audio/sfx/" + _packagelist[bank_meta.package_index], File.READ)
+	if err != OK:
+		print("Error opening SFX package %s" % _packagelist[bank_meta.package_index])
+		return null
+
+	file.seek(bank_meta.bank_header_offset)
+	var bank_header := BankHeader.new()
+	bank_header.numsounds = file.get_16()
+	bank_header.padding = file.get_16()
+
+	for i in bank_header.numsounds:
+		var sound_meta := SoundMeta.new()
+		sound_meta.buffer_offset = file.get_32()
+		sound_meta.loop_offset = file.get_32()
+		sound_meta.sample_rate = file.get_16()
+		sound_meta.headroom = file.get_16()
+		bank_header.sounds.append(sound_meta)
+	file.close()
+	return bank_header
 
 class BankMeta:
 	var package_index: int
