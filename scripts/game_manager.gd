@@ -13,3 +13,5 @@ func _ready() -> void:
     filediag.popup_centered_minsize(Vector2(300, 300))
     game_path = yield(filediag, "dir_selected")
     print("Game path:" + game_path)
+
+    AudioManager.init()
