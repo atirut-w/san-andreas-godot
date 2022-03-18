@@ -2,6 +2,9 @@ extends Node
 
 var packagelist := []
 
+func _ready() -> void:
+    GameManager.connect("initialized", self, "init")
+
 func init() -> void:
     print("Initializing Audio Manager")
     var file := File.new()
