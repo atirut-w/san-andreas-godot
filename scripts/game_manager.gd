@@ -1,6 +1,8 @@
 extends Node
 # You know what this script does.
 
+signal initialized()
+
 var game_path := ""
 
 func _ready() -> void:
@@ -13,3 +15,5 @@ func _ready() -> void:
     filediag.popup_centered_minsize(Vector2(800, 300))
     game_path = yield(filediag, "dir_selected")
     print("Game path:" + game_path)
+
+    emit_signal("initialized")
