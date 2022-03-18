@@ -1,6 +1,6 @@
 extends Node
 
-var _packagelist := []
+var _packagelist: PoolStringArray = []
 
 func _ready() -> void:
     GameManager.connect("initialized", self, "init")
