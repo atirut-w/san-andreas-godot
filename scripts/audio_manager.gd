@@ -12,7 +12,7 @@ func init() -> void:
 func _load_packagelist() -> void:
     print("Loading SFX packages")
     var file := File.new()
-    var err = file.open(GameManager.game_path + "/audio/CONFIG/PakFiles.dat", File.READ)
+    var err := file.open(GameManager.game_path + "/audio/CONFIG/PakFiles.dat", File.READ)
     if err != OK:
         print("Error opening PakFiles.dat")
         return
