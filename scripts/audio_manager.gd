@@ -7,11 +7,12 @@ func _ready() -> void:
 
 func init() -> void:
     print("Initializing Audio Manager")
-    var file := File.new()
-    var err := OK
+    _load_packages()
 
+func _load_packages() -> void:
     print("Loading SFX packages")
-    err = file.open(GameManager.game_path + "/audio/CONFIG/PakFiles.dat", File.READ)
+    var file := File.new()
+    var err = file.open(GameManager.game_path + "/audio/CONFIG/PakFiles.dat", File.READ)
     if err != OK:
         print("Error opening PakFiles.dat")
         return
@@ -19,4 +20,5 @@ func init() -> void:
     for i in file.get_len() / 52:
         var namebuffer := file.get_buffer(52) as PoolByteArray
         packagelist.append(namebuffer.get_string_from_utf8())
+    file.close()
     print("Loaded %d SFX package(s)" % packagelist.size())
