@@ -51,3 +51,14 @@ class BankMeta:
     var padding: PoolIntArray
     var bank_header_offset: int
     var bank_size: int
+
+class SoundMeta:
+    var buffer_offset: int
+    var loop_offset: int
+    var sample_rate: int
+    var headroom: int
+
+class BankHeader:
+    var numsounds: int
+    var padding: int
+    var sounds: Array
