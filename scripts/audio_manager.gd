@@ -16,7 +16,7 @@ func _load_packagelist() -> void:
 	var file := File.new()
 	var err := file.open(GameManager.game_path + "/audio/CONFIG/PakFiles.dat", File.READ)
 	if err != OK:
-		print("Error opening PakFiles.dat")
+		push_error("Error opening PakFiles.dat")
 		return
 
 	for i in file.get_len() / 52:
@@ -30,7 +30,7 @@ func _load_bank_lookup() -> void:
 	var file := File.new()
 	var err := file.open(GameManager.game_path + "/audio/CONFIG/BankLkup.dat", File.READ)
 	if err != OK:
-		print("Error opening BankLkup.dat")
+		push_error("Error opening BankLkup.dat")
 		return
 
 	for i in file.get_len() / 12:
@@ -52,7 +52,7 @@ func load_bank(bank_id: int) -> BankHeader:
 
 	var err = file.open(GameManager.game_path + "/audio/sfx/" + _packagelist[bank_meta.package_index], File.READ)
 	if err != OK:
-		print("Error opening SFX package %s" % _packagelist[bank_meta.package_index])
+		push_error("Error opening SFX package %s" % _packagelist[bank_meta.package_index])
 		return null
 
 	file.seek(bank_meta.bank_header_offset)
@@ -88,7 +88,7 @@ func load_sound(bank_id: int, sound_id: int) -> AudioStreamSample:
 	var file := File.new()
 	var err := file.open(GameManager.game_path + "/audio/sfx/" + _packagelist[bank_meta.package_index], File.READ)
 	if err != OK:
-		print("Error opening SFX package %s" % _packagelist[bank_meta.package_index])
+		push_error("Error opening SFX package %s" % _packagelist[bank_meta.package_index])
 		return null
 	file.seek(bank_meta.bank_header_offset + 4804 + sound_meta.buffer_offset)
 	var buffer := file.get_buffer(audio_len) as PoolByteArray
